@@ -96,8 +96,8 @@ if file is not None:
     audio_features = sp.audio_features(track_ids)
 
     # Generate data frame of audio features
-    df = pd.DataFrame(audio_features)
-    df = df[
+    audio_features_df = pd.DataFrame(audio_features)
+    matrix_df = audio_features_df[
         [
             "danceability",
             "energy",
@@ -111,7 +111,7 @@ if file is not None:
     ]
 
     # Create correlation matrix of audio features
-    matrix = df.corr()
+    matrix = matrix_df.corr()
 
     # Display matrix
     sns.heatmap(matrix, annot=True, cmap="coolwarm")
