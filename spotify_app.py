@@ -28,9 +28,9 @@ today = str(date.today())
 # Connect to spotify an give proper permissions for playlist customization
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
-        client_id="7444209f2bc34f7ba86b8ce6d7fe5ab7",
-        client_secret="c2b5526ba53c46cdb770351224ce9612",
-        redirect_uri="http://localhost:8080",
+        client_id=SpotifyOAuth.client_id,
+        client_secret=SpotifyOAuth.client_secret,
+        redirect_uri=SpotifyOAuth.redirect_uri,
         scope="user-top-read,user-library-read,user-read-recently-played,playlist-modify-private,playlist-modify-public",
     )
 )
