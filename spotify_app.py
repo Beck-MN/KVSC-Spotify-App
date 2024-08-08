@@ -37,7 +37,9 @@ sp = spotipy.Spotify(
 
 # Organize NACC chart into needed columns and group by category
 keep = ["TW", "Artist", "Recording", "Label"]
-file = st.file_uploader("Upload a CSV or Excel file of the most recent NACC top 30 albums", type=["csv"])
+file = st.file_uploader(
+    "Upload a CSV or Excel file of the most recent NACC top 30 albums", type=["csv"]
+)
 
 
 if file is not None:
