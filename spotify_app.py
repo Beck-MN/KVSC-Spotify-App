@@ -39,12 +39,12 @@ sp = spotipy.Spotify(
 keep = ["TW", "Artist", "Recording", "Label"]
 file = st.file_uploader("Upload a CSV or Excel file of the most recent NACC top 30 albums", type=["csv"])
 
-# Make dataframe of file
-nacc_df = pd.read_csv(file, usecols=keep)
-st.dataframe(nacc_df)
-
 if file is not None and st.button("Generate Playlist"):
 
+    # Make dataframe of file
+    nacc_df = pd.read_csv(file, usecols=keep)
+    st.dataframe(nacc_df)
+    
     # Establish main user (only me for now)
     user_id = sp.me()["id"]
 
@@ -64,7 +64,7 @@ if file is not None and st.button("Generate Playlist"):
         artist = row["Artist"]
 
         # search spotify for album
-        query = f'album:{search} artist:{artist}'
+        query = f'artist:"{artist}" album:"{search}"'
         result = sp.search(q=query, limit=1, type="album", market="US")
         search_result = result["albums"]["items"]
 
@@ -74,8 +74,8 @@ if file is not None and st.button("Generate Playlist"):
                 search_result[0]["name"],
                 "by",
                 search_result[0]["artists"][0]["name"],
-                "added, Spotify ID:",
-                search_result[0]["id"],
+                "added, Spotify link:",
+                search_result[0]["external_urls"]["spotify"],
             )
 
             # Organize search results for playlist
@@ -90,38 +90,42 @@ if file is not None and st.button("Generate Playlist"):
         else:
             st.write("Couldn't find",search,"by",artist)
 
+
     st.write(
         "Playlist Generated! Find it in your library or at: ",
-        playlist["external_urls"]["spotify"],
-    )
+        playlist["external_urls"]["spotify"],)
+    
     st.write("Generating correlation matix of the auido features of the NACC top 30...")
 
-    # Get track ID's of songs from generated playlist
-    # Get audio features of each track
-    playlist_tracks = sp.playlist_tracks(playlist["id"])
-    tracks = playlist_tracks["items"]
-    track_ids = [track["id"] for item in tracks]
+        # Get track ID's of songs from generated playlist
+        # Get audio features of each track
+    playlist_tracks = sp.playlist_tracks(playlist['id'])
+    tracks = playlist_tracks['items']
+    track_ids = [track['track']['id'] for track in tracks]
     audio_features = sp.audio_features(track_ids)
 
-    # Generate data frame of audio features
+        # Generate data frame of audio features
     audio_features_df = pd.DataFrame(audio_features)
     audio_features_df = audio_features_df[
-        [
-            "danceability",
-            "energy",
-            "speechiness",
-            "acousticness",
-            "instrumentalness",
-            "liveness",
-            "valence",
-            "tempo",
+            [
+                "danceability",
+                "energy",
+                "speechiness",
+                "acousticness",
+                "instrumentalness",
+                "liveness",
+                "valence",
+                "tempo",
+            ]
         ]
-    ]
 
-    # Create correlation matrix of audio features
+        # Create correlation matrix of audio features
     matrix = audio_features_df.corr()
 
-    # Display matrix
-    sns.heatmap(matrix, annot=True, cmap="coolwarm")
+        # Display matrix
+    sns.heatmap(matrix, annot=True, cmap="rocket")
 
     st.pyplot(plt.gcf())
+        
+
+   
