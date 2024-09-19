@@ -51,9 +51,9 @@ You will also need:
    pip install -r requirements.txt   
 3. Create a '.env' file with your Spotify credentials
    ```bash
-   SPOTIPY_CLIENT_ID='your-client-id'
-   SPOTIPY_CLIENT_SECRET='your-client-secret'
-   SPOTIPY_REDIRECT_URI='http://localhost:8080'
+   CLIENT_ID='your-client-id'
+   CLIENT_SECRET='your-client-secret'
+   REDIRECT_URI='http://localhost:8080'
 4. Run the app:
    ```bash
    streamlit run spotify_app.py
