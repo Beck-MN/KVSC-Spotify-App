@@ -215,9 +215,6 @@ def get_paragraph():
 # Main function
 def main():
 
-    # Organize NACC chart into needed columns and group by category
-    keep = ["TW", "Artist", "Recording", "Label"]
-
     # Get the current top 30 from kvsc.org
     nacc_df = get_nacc_chart()
 
