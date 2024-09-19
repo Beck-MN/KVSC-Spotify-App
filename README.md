@@ -58,7 +58,7 @@ You will also need:
 
 ## Usage
 
-1. Launch the app or go to kvsc.org to see KVSC's Top 30 chart.
+1. Launch the app or go to the [kvsc website](https://www.kvsc.org/music/nacc-charts/) to see KVSC's Top 30 chart.
 2. Click Generate Spotify Playlist to create a Spotify playlist with those albums.
 3. The app will display a correlation matrix visualizing relationships between audio features of the Top 30 songs.
 
