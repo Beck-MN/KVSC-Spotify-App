@@ -221,7 +221,7 @@ def main():
     # Get the current top 30 from kvsc.org
     nacc_df = get_nacc_chart()
 
-    st.logo("Kvsc_official_logo_2009.png", link="https://kvsc.org")
+    st.logo("/img/Kvsc_official_logo_2009.png", link="https://kvsc.org")
     st.header("KVSC Weekly Top 30","https://www.kvsc.org/music/nacc-charts/", divider="red")
     
     st.write(
