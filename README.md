@@ -44,8 +44,8 @@ You will also need:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/beck-christensen/kvsc-spotify-generator.git
-   cd kvsc-spotify-generator
+   git clone https://github.com/beck-christensen/kvsc-spotify-app.git
+   cd kvsc-spotify-app
 2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt   
