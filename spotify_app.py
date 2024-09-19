@@ -1,9 +1,13 @@
 """Developer: Beck Christensen
    Date Started: 8-7-2024
    
-   What is this shit? tbh brother i dont really know 
-   im just trying out the spotify API requests to potentially
-   help with my radio job"""
+Web app designed to create a Spotify playlist from the weekly
+KVSC Top 30 NACC chart. Using web scraping and the Spotify API,
+it automatically compiles the playlist and even provides a 
+correlation matrix to analyze audio features such as danceability, 
+energy, and more.
+
+"""
 
 import os
 
@@ -218,7 +222,7 @@ def main():
     # Get the current top 30 from kvsc.org
     nacc_df = get_nacc_chart()
 
-    st.logo("/img/Kvsc_official_logo_2009.png", link="https://kvsc.org")
+    st.logo("img\Kvsc_official_logo_2009.png", link="https://kvsc.org")
     st.header("KVSC Weekly Top 30","https://www.kvsc.org/music/nacc-charts/", divider="red")
     
     st.write(
