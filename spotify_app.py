@@ -32,13 +32,15 @@ today = str(date.today())
 # Connect to spotify an give proper permissions for playlist customization
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
-        client_id="7444209f2bc34f7ba86b8ce6d7fe5ab7",
-        client_secret="c2b5526ba53c46cdb770351224ce9612",
+        client_id="XX",
+        client_secret="XX",
         redirect_uri="http://localhost:8080",
         scope="playlist-modify-private,playlist-modify-public",
     )
 )
 
+
+# Request headers for webscraper so it has proper permissions
 request_headers = {
     "referer": "https://www.kvsc.org/wp-content/themes/kvsc/css/style.css?ver=6.6.1",
     "accept-language": "en-US,en;q=0.9",
@@ -49,6 +51,8 @@ request_headers = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
 }
 
+
+# Get the HTML of the kvsc top 30 page
 response = requests.get(
     "https://www.kvsc.org/music/nacc-charts/", headers=request_headers
 )
@@ -87,6 +91,40 @@ def get_nacc_chart():
     df = df.drop(index=0)
 
     return df
+
+
+# Creates a correlation matrix comparing the audio features of a spotify playlist
+def gen_corr_matrix(playlist_id):
+
+    # Get track ID's of songs from generated playlist
+    # Get audio features of each track
+    playlist_tracks = sp.playlist_tracks(playlist_id)
+    tracks = playlist_tracks["items"]
+    track_ids = [track["track"]["id"] for track in tracks]
+    audio_features = sp.audio_features(track_ids)
+
+        # Generate data frame of audio features
+    audio_features_df = pd.DataFrame(audio_features)
+    audio_features_df = audio_features_df[
+        [
+            "danceability",
+            "energy",
+            "speechiness",
+            "acousticness",
+            "instrumentalness",
+            "liveness",
+            "valence",
+            "tempo",
+        ]
+    ]
+
+        # Create correlation matrix of audio features
+    matrix = audio_features_df.corr()
+
+        # Display matrix
+    sns.heatmap(matrix, annot=True, cmap="rocket")
+
+    st.pyplot(plt.gcf())
 
 
 # Function to creat a spotify playlist of the top 30
@@ -138,8 +176,7 @@ def generate_playlist(nacc_df):
             st.write("Couldn't find", search, "by", artist)
 
     st.subheader(
-        "Playlist Generated! Find it in your library or here ->",
-        playlist["external_urls"]["spotify"], divider="red"
+        "Playlist Generated! Find it in your library or here: " + playlist["external_urls"]["spotify"], divider="red"
     )
 
     return playlist["id"]
@@ -178,7 +215,8 @@ def main():
     nacc_df = get_nacc_chart()
 
     st.logo("Kvsc_official_logo_2009.png", link="https://kvsc.org")
-    st.header("KVSC Weekly Top 30", anchor=None, divider="red")
+    st.header("KVSC Weekly Top 30","https://www.kvsc.org/music/nacc-charts/", divider="red")
+    
     st.write(
         "The North American College and Community radio, or NACC chart, tabulates weekly the top 200 artists being spun on about 200 member stations. Member stations represent a vast array of non-commercial college and community-based radio services throughout the US and Canada. NACC also compiles charts on a number of specialty genres, including jazz, blues, folk, and hip-hop."
     )
@@ -192,45 +230,17 @@ def main():
         # Create spotify playlist of the current top 30
         playlist_id = generate_playlist(nacc_df)
 
-        st.subheader("Create a correlation matix of the spotify audio features", anchor=None)
+        st.subheader("Correlation matix of the spotify audio features", anchor=None)
         st.write("A correlation matrix is a tool used to measure how strongly different variables relate to each other. Spotify uses something called audio features which are terms like danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence, and tempo. A correlation matrix helps us understand how these features interact.")
-        st.write("Each number in the matrix, called a correlation coefficient, ranges from -1 to 1. A coefficient close to 1 means two features increase together (for example, as energy goes up, danceability might also increase), while a value near -1 means that when one feature increases, the other decreases (like if acousticness tends to go down when energy goes up). A coefficient close to 0 means there’s little to no relationship between the features.")
+        st.write("Each number in the matrix, called a correlation coefficient, ranges from -1 to 1. A coefficient close to 1 means two features increase together (for example, as energy goes up, danceability might also increase), while a value near -1 means that when one feature increases, the other decreases (like if acousticness tends to go down when energy goes up). A coefficient close to 0 means there’s little to no relationship between the features.")     
+        st.write(
+             "Generating correlation matix of the auido features of the NACC top 30..."
+        )
         
-        if st.button("Generate Correlation Matrix", type="secondary"):
-            
-            st.write(
-                "Generating correlation matix of the auido features of the NACC top 30..."
-            )
+        gen_corr_matrix(playlist_id)
+    
+    st.caption("Developed by: Beck Christensen")
 
-            # Get track ID's of songs from generated playlist
-            # Get audio features of each track
-            playlist_tracks = sp.playlist_tracks(playlist_id=playlist_id)
-            tracks = playlist_tracks["items"]
-            track_ids = [track["track"]["id"] for track in tracks]
-            audio_features = sp.audio_features(track_ids)
-
-            # Generate data frame of audio features
-            audio_features_df = pd.DataFrame(audio_features)
-            audio_features_df = audio_features_df[
-                [
-                    "danceability",
-                    "energy",
-                    "speechiness",
-                    "acousticness",
-                    "instrumentalness",
-                    "liveness",
-                    "valence",
-                    "tempo",
-                ]
-            ]
-
-            # Create correlation matrix of audio features
-            matrix = audio_features_df.corr()
-
-            # Display matrix
-            sns.heatmap(matrix, annot=True, cmap="rocket")
-
-            st.pyplot(plt.gcf())
 
 if __name__ == "__main__":
     main()
