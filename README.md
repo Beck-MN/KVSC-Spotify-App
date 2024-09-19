@@ -1,4 +1,6 @@
-# KVSC Spotify Playlist Generator
+![alt text](https://github.com/Beck-MN/KVSC-Spotify-App/blob/main/Kvsc_official_logo_2009.png?raw=true)
+
+# KVSC Spotify Playlist Generator 
 
 ### Developer: Beck Christensen  
 ### Date Started: 8-7-2024  
