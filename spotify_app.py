@@ -5,6 +5,8 @@
    im just trying out the spotify API requests to potentially
    help with my radio job"""
 
+import os
+
 # Spotify API libraries
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -27,14 +29,19 @@ from datetime import date
 import requests
 from bs4 import BeautifulSoup
 
+# Importing .env file
+from dotenv import load_dotenv, dotenv_values
+# Loading in enviroment values
+load_dotenv()
+
 today = str(date.today())
 
 # Connect to spotify an give proper permissions for playlist customization
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
-        client_id="XX",
-        client_secret="XX",
-        redirect_uri="http://localhost:8080",
+        client_id=os.getenv("CLIENT_ID"),
+        client_secret=os.getenv("CLIENT_SECRET"),
+        redirect_uri=os.getenv("REDIRECT_URI"),
         scope="playlist-modify-private,playlist-modify-public",
     )
 )

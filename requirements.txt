@@ -4,3 +4,5 @@ spotipy
 seaborn
 datetime
 matplotlib
+bs4
+python-dotenv
