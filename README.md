@@ -1,6 +1,8 @@
-![alt text](https://github.com/Beck-MN/KVSC-Spotify-App/blob/main/Kvsc_official_logo_2009.png?raw=true)
 
-# KVSC Spotify Playlist Generator 
+
+
+# KVSC Spotify Playlist Generator <img src="https://github.com/Beck-MN/KVSC-Spotify-App/blob/main/Kvsc_official_logo_2009.png?raw=true" height="247" width="270">
+</img>
 
 ### Developer: Beck Christensen  
 ### Date Started: 8-7-2024  
