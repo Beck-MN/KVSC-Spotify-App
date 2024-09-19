@@ -57,7 +57,9 @@ You will also need:
 4. Run the app:
    ```bash
    streamlit run spotify_app.py
-
+Or
+```bash
+   python streamlit run spotify_app.py
 ---
 
 ## Usage
